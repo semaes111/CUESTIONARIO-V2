@@ -2,28 +2,1278 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cuestionario clínico — En construcción</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1B3A5C">
+  <title>Evaluación clínica · Centro NextHorizont Health</title>
+  <meta name="description" content="Cuestionario clínico de Centro NextHorizont Health — evaluación orientativa de obesidad y candidatura a tratamiento médico.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      display: flex; align-items: center; justify-content: center;
-      min-height: 100vh; margin: 0;
-      background: linear-gradient(135deg, #f7f9fc 0%, #e2e8f0 100%);
-      color: #1B3A5C;
-    }
-    .container { text-align: center; padding: 2rem; max-width: 480px; }
-    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-    p { color: #5A7A9B; margin: 0.5rem 0; }
-    .badge { display: inline-block; padding: 4px 12px; background: #D6E8F7; color: #1B3A5C; border-radius: 12px; font-size: 0.85rem; margin-top: 1rem; }
+:root{--azul-profundo:#1B3A5C;--azul-medio:#2E6B9E;--azul-cielo:#5BA4D9;--azul-hielo:#D6E8F7;--metal-claro:#E8EEF4;--metal-medio:#C4D1DE;--metal-oscuro:#8A9BB0;--blanco-hielo:#F7F9FC;--blanco-puro:#FFFFFF;--gris-suave:#E2E8F0;--exito:#10B981;--error:#EF4444;--advertencia:#F59E0B;--premium:#7C3AED;--premium-dark:#5B21B6;--premium-light:#EDE9FE;--texto-principal:#1B3A5C;--texto-secundario:#5A7A9B;--shadow-raised:6px 6px 12px #B8C4D3,-4px -4px 8px #FFFFFF;--shadow-pressed:inset 3px 3px 6px #153050,inset -2px -2px 4px #3A7FBF;--shadow-card:0 4px 20px rgba(27,58,92,.08),0 1px 3px rgba(27,58,92,.06);--shadow-input-inset:inset 2px 2px 4px #C4D1DE,inset -1px -1px 2px #FFF;--shadow-premium:0 4px 20px rgba(124,58,237,.18),0 1px 3px rgba(124,58,237,.12);--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:24px;--radius-full:9999px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--blanco-hielo);color:var(--texto-principal);min-height:100dvh;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.app-container{max-width:480px;margin:0 auto;padding:0 20px 40px}
+.app-header{position:sticky;top:0;z-index:100;background:rgba(247,249,252,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:16px 0 12px;border-bottom:1px solid rgba(196,209,222,.3)}
+.clinic-brand{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.clinic-logo{width:42px;height:42px;background:linear-gradient(135deg,var(--azul-medio),var(--azul-profundo));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.clinic-logo svg{width:24px;height:24px;color:#fff}
+.clinic-info h1{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:17px;color:var(--azul-profundo);line-height:1.2}
+.clinic-info p{font-size:13px;color:var(--texto-secundario)}
+.progress-bar{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0}
+.progress-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;transition:all .4s cubic-bezier(.4,0,.2,1);flex-shrink:0}
+.progress-dot.completed{background:var(--azul-medio);color:#fff;box-shadow:0 2px 8px rgba(46,107,158,.3)}
+.progress-dot.active{background:var(--azul-medio);color:#fff;box-shadow:0 0 0 4px rgba(46,107,158,.2);animation:pulse-ring 2s infinite}
+.progress-dot.pending{background:var(--metal-claro);color:var(--metal-oscuro);border:2px solid var(--metal-medio)}
+.progress-dot.premium{background:var(--premium);color:#fff;box-shadow:0 2px 8px rgba(124,58,237,.3)}
+.progress-dot.premium.active{box-shadow:0 0 0 4px rgba(124,58,237,.2)}
+.progress-line{width:24px;height:3px;border-radius:2px;transition:background .4s ease;flex-shrink:0}
+.progress-line.completed{background:var(--azul-medio)}
+.progress-line.pending{background:var(--metal-medio)}
+.progress-line.premium{background:var(--premium)}
+@keyframes pulse-ring{0%,100%{box-shadow:0 0 0 4px rgba(46,107,158,.2)}50%{box-shadow:0 0 0 8px rgba(46,107,158,.05)}}
+.step{display:none;animation:fadeSlideIn .35s cubic-bezier(.4,0,.2,1) forwards}
+.step.active{display:block}
+.step.slide-out-left{animation:fadeSlideOutLeft .3s cubic-bezier(.4,0,.2,1) forwards}
+.step.slide-in-right{animation:fadeSlideIn .35s cubic-bezier(.4,0,.2,1) forwards}
+.step.slide-out-right{animation:fadeSlideOutRight .3s cubic-bezier(.4,0,.2,1) forwards}
+.step.slide-in-left{animation:fadeSlideInLeft .35s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fadeSlideOutLeft{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-40px)}}
+@keyframes fadeSlideOutRight{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}
+@keyframes fadeSlideInLeft{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:translateX(0)}}
+.card{background:var(--blanco-puro);border-radius:var(--radius-lg);padding:24px 20px;margin-top:20px;box-shadow:var(--shadow-card);border:1px solid rgba(196,209,222,.25)}
+.card.card-premium{box-shadow:var(--shadow-premium);border:1px solid rgba(124,58,237,.25);background:linear-gradient(180deg,#FFFFFF 0%,#FAFAFE 100%)}
+.card-title{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:20px;color:var(--azul-profundo);display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.card-title.title-premium{color:var(--premium-dark)}
+.card-title .icon{width:36px;height:36px;background:var(--azul-hielo);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-title .icon svg{width:20px;height:20px;color:var(--azul-medio)}
+.card-title.title-premium .icon{background:var(--premium-light)}
+.card-title.title-premium .icon svg{color:var(--premium)}
+.section-divider{height:1px;background:var(--gris-suave);margin:24px 0}
+.subsection-divider{display:flex;align-items:center;gap:12px;margin:20px 0 16px}
+.subsection-divider span{font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:13px;color:var(--azul-medio);text-transform:uppercase;letter-spacing:.04em;flex-shrink:0}
+.subsection-divider::before,.subsection-divider::after{content:'';flex:1;height:1px;background:var(--gris-suave)}
+.form-group{margin-bottom:22px}
+.form-label{display:block;font-size:14px;font-weight:500;color:var(--texto-principal);margin-bottom:8px}
+.form-label .required{color:var(--error);margin-left:2px}
+.form-label .optional{color:var(--metal-oscuro);font-weight:400;margin-left:4px;font-size:12px}
+.form-sublabel{font-size:13px;color:var(--texto-secundario);margin-bottom:10px;display:block}
+.input-text{width:100%;height:48px;padding:14px 16px;font-family:'DM Sans',sans-serif;font-size:16px;color:var(--texto-principal);background:var(--blanco-puro);border:1.5px solid var(--metal-medio);border-radius:var(--radius-md);outline:none;transition:all .25s ease}
+.input-text:focus{border-color:var(--azul-medio);box-shadow:0 0 0 3px rgba(46,107,158,.15)}
+.input-text.error{border-color:var(--error);box-shadow:0 0 0 3px rgba(239,68,68,.1)}
+.input-text.input-premium:focus{border-color:var(--premium);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+.input-text::placeholder{color:var(--metal-oscuro)}
+textarea.input-text{height:110px;resize:vertical;line-height:1.5}
+.error-message{font-size:13px;color:var(--error);margin-top:6px;display:none;animation:shake .3s ease}
+.error-message.visible{display:block}
+.success-inline{font-size:13px;color:var(--exito);margin-top:6px;display:none}
+.success-inline.visible{display:block}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.two-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stepper{display:flex;align-items:center;gap:4px;justify-content:center}
+.stepper-btn{width:48px;height:48px;border:none;border-radius:var(--radius-md);background:linear-gradient(145deg,#F0F4F8,#D1D9E6);box-shadow:var(--shadow-raised);color:var(--azul-profundo);font-size:22px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s ease;-webkit-tap-highlight-color:transparent;user-select:none}
+.stepper-btn:active{box-shadow:inset 2px 2px 4px #B8C4D3,inset -1px -1px 2px #FFF;transform:scale(.96)}
+.stepper-value{width:64px;height:48px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:22px;color:var(--azul-profundo);background:var(--blanco-hielo);border-radius:var(--radius-sm);box-shadow:var(--shadow-input-inset)}
+.sex-selector{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sex-option{display:none}
+.sex-label{display:flex;flex-direction:column;align-items:center;justify-content:center;height:64px;border-radius:var(--radius-md);background:linear-gradient(145deg,#F0F4F8,#D1D9E6);box-shadow:var(--shadow-raised);border:2px solid transparent;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);-webkit-tap-highlight-color:transparent;gap:4px}
+.sex-label svg{width:22px;height:22px;color:var(--azul-profundo);transition:color .25s ease}
+.sex-label span{font-size:14px;font-weight:600;color:var(--azul-profundo);transition:color .25s ease}
+.sex-option:checked+.sex-label{background:linear-gradient(145deg,var(--azul-medio),var(--azul-profundo));box-shadow:var(--shadow-pressed);border-color:rgba(91,164,217,.3)}
+.sex-option:checked+.sex-label svg,.sex-option:checked+.sex-label span{color:#fff}
+.slider-container{padding:8px 0}
+.slider-display{display:flex;justify-content:center;margin-bottom:10px}
+.slider-tooltip{background:var(--azul-profundo);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;padding:6px 14px;border-radius:var(--radius-xl);min-width:56px;text-align:center;box-shadow:0 4px 12px rgba(27,58,92,.25)}
+input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:4px;outline:none;background:var(--metal-claro);box-shadow:var(--shadow-input-inset)}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;height:32px;border-radius:50%;background:var(--blanco-puro);border:3px solid var(--azul-medio);box-shadow:0 2px 8px rgba(27,58,92,.3);cursor:pointer;transition:transform .15s ease}
+input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.25);box-shadow:0 2px 12px rgba(46,107,158,.4)}
+input[type="range"]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;background:var(--blanco-puro);border:3px solid var(--azul-medio);box-shadow:0 2px 8px rgba(27,58,92,.3);cursor:pointer}
+.slider-labels{display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--texto-secundario)}
+input[type="range"].slider-anxiety{background:linear-gradient(90deg,#10B981,#F59E0B,#EF4444)}
+input[type="range"].slider-motivation{background:linear-gradient(90deg,var(--azul-hielo),var(--azul-medio),var(--azul-profundo))}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(226,232,240,.6)}
+.toggle-row:last-child{border-bottom:none}
+.toggle-label-text{font-size:15px;font-weight:500;color:var(--texto-principal);flex:1;padding-right:12px}
+.toggle-label-text small{display:block;font-size:12px;color:var(--texto-secundario);font-weight:400;margin-top:2px}
+.toggle-switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;border-radius:var(--radius-full);background:var(--metal-claro);box-shadow:inset 1px 1px 3px #B8C4D3,inset -1px -1px 2px #FFF;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.toggle-slider::before{content:'';position:absolute;width:22px;height:22px;border-radius:50%;background:var(--blanco-puro);box-shadow:2px 2px 4px rgba(0,0,0,.12);top:3px;left:3px;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.toggle-switch input:checked+.toggle-slider{background:linear-gradient(135deg,var(--azul-medio),var(--azul-profundo));box-shadow:0 0 12px rgba(46,107,158,.3)}
+.toggle-switch input:checked+.toggle-slider::before{transform:translateX(24px)}
+.chips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:10px}
+.chip-input{display:none}
+.chip-label{display:flex;align-items:center;justify-content:center;text-align:center;padding:11px 10px;border-radius:var(--radius-xl);font-size:13px;font-weight:500;color:var(--azul-profundo);background:linear-gradient(145deg,#F0F4F8,#D8E0EA);box-shadow:4px 4px 8px #B8C4D3,-3px -3px 6px #FFF;border:1.5px solid rgba(255,255,255,.6);cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);-webkit-tap-highlight-color:transparent;user-select:none;min-height:44px;gap:6px;line-height:1.2}
+.chip-label:active{transform:scale(.95)}
+.chip-check{display:none;width:16px;height:16px;flex-shrink:0}
+.chip-input:checked+.chip-label{background:linear-gradient(145deg,var(--azul-medio),var(--azul-profundo));box-shadow:var(--shadow-pressed);color:#fff;border-color:rgba(91,164,217,.3)}
+.chip-input:checked+.chip-label .chip-check{display:block;color:#fff;animation:chipCheckIn .2s ease forwards}
+@keyframes chipCheckIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.chip-label.chip-none{border:1.5px dashed var(--metal-medio);background:var(--blanco-hielo);box-shadow:none}
+.chip-input:checked+.chip-label.chip-none{background:linear-gradient(145deg,var(--metal-oscuro),#6B7F95);border-style:solid;color:#fff}
+.btn-group{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.btn-group-input{display:none}
+.btn-group-label{display:flex;align-items:center;justify-content:center;height:52px;border-radius:var(--radius-md);font-size:15px;font-weight:600;color:var(--azul-profundo);background:linear-gradient(145deg,#F0F4F8,#D1D9E6);box-shadow:var(--shadow-raised);border:2px solid transparent;cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);-webkit-tap-highlight-color:transparent}
+.btn-group-label:active{transform:scale(.96)}
+.btn-group-input:checked+.btn-group-label{background:linear-gradient(145deg,var(--azul-medio),var(--azul-profundo));box-shadow:var(--shadow-pressed);color:#fff;border-color:rgba(91,164,217,.3)}
+.info-box{display:flex;gap:10px;padding:12px 14px;border-radius:var(--radius-sm);background:rgba(214,232,247,.4);border-left:3px solid var(--azul-medio);font-size:13px;color:var(--texto-secundario);line-height:1.4;margin-top:12px}
+.info-box svg{width:16px;height:16px;flex-shrink:0;color:var(--azul-medio);margin-top:1px}
+.warning-box{display:none;gap:10px;padding:12px 14px;border-radius:var(--radius-sm);background:rgba(245,158,11,.08);border-left:3px solid var(--advertencia);font-size:13px;color:#92400E;line-height:1.4;margin-bottom:12px;animation:fadeSlideDown .3s ease forwards}
+.warning-box.visible{display:flex}
+.warning-box svg{width:16px;height:16px;flex-shrink:0;color:var(--advertencia);margin-top:1px}
+@keyframes fadeSlideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.conditional-section{overflow:hidden;max-height:0;opacity:0;transition:max-height .4s cubic-bezier(.4,0,.2,1),opacity .3s ease,margin .3s ease;margin-top:0}
+.conditional-section.visible{max-height:500px;opacity:1;margin-top:16px}
+.subsection{background:rgba(214,232,247,.2);border-radius:var(--radius-md);padding:18px 16px;border:1px solid rgba(214,232,247,.5)}
+.subsection-title{font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:15px;color:var(--azul-medio);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.subsection-title svg{width:18px;height:18px}
+.female-section{overflow:hidden;max-height:0;opacity:0;transition:max-height .5s cubic-bezier(.4,0,.2,1),opacity .35s ease}
+.female-section.visible{max-height:600px;opacity:1}
+.consent-box{background:var(--blanco-puro);border-radius:var(--radius-lg);padding:18px 16px;margin-top:16px;box-shadow:var(--shadow-card);border:1px solid rgba(196,209,222,.25)}
+.consent-label{display:flex;gap:12px;cursor:pointer;align-items:flex-start;-webkit-tap-highlight-color:transparent}
+.consent-checkbox{width:22px;height:22px;border:2px solid var(--metal-medio);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s ease;margin-top:1px;background:var(--blanco-puro)}
+.consent-checkbox svg{width:14px;height:14px;color:#fff;opacity:0;transform:scale(0);transition:all .2s ease}
+.consent-input{display:none}
+.consent-input:checked~.consent-label .consent-checkbox{background:var(--azul-medio);border-color:var(--azul-medio)}
+.consent-input:checked~.consent-label .consent-checkbox svg{opacity:1;transform:scale(1)}
+.consent-text{font-size:13px;color:var(--texto-secundario);line-height:1.5}
+.consent-link{color:var(--azul-medio);text-decoration:underline;cursor:pointer;font-weight:500}
+.consent-full{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:12px;color:var(--texto-secundario);line-height:1.5}
+.consent-full.visible{max-height:200px;margin-top:10px}
+.nav-buttons{display:flex;gap:12px;margin-top:24px;padding-bottom:20px}
+.btn{flex:1;height:52px;border:none;border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s cubic-bezier(.4,0,.2,1);-webkit-tap-highlight-color:transparent}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:linear-gradient(145deg,var(--azul-medio),var(--azul-profundo));color:#fff;box-shadow:0 4px 14px rgba(27,58,92,.3),4px 4px 10px #B8C4D3,-2px -2px 6px #FFF}
+.btn-primary:active{box-shadow:inset 2px 2px 4px rgba(0,0,0,.2)}
+.btn-premium{background:linear-gradient(145deg,var(--premium),var(--premium-dark));color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.3),4px 4px 10px #B8C4D3,-2px -2px 6px #FFF}
+.btn-secondary{background:linear-gradient(145deg,#F0F4F8,#D8E0EA);color:var(--azul-profundo);box-shadow:4px 4px 8px #B8C4D3,-3px -3px 6px #FFF;flex:.6}
+.btn-secondary:active{box-shadow:inset 2px 2px 4px #B8C4D3,inset -1px -1px 2px #FFF}
+.btn-submit{height:56px;font-size:17px}
+.btn svg{width:18px;height:18px}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none!important}
+.btn-loading .btn-text{display:none}
+.btn-loading .btn-spinner{display:block}
+.btn .btn-spinner{display:none;width:22px;height:22px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.required-note{text-align:center;font-size:12px;color:var(--texto-secundario);margin-top:12px}
+.success-screen{display:none;text-align:center;padding:60px 20px;animation:fadeIn .5s ease forwards}
+.success-screen.active{display:block}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.success-circle{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--exito),#059669);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 8px 30px rgba(16,185,129,.3);animation:bounceIn .6s cubic-bezier(.68,-.55,.265,1.55) forwards}
+.success-circle svg{width:40px;height:40px;color:#fff;stroke-width:3}
+@keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.success-title{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:24px;color:var(--azul-profundo);margin-bottom:12px}
+.success-text{font-size:16px;color:var(--texto-secundario);line-height:1.6;margin-bottom:32px}
+.success-divider{width:60px;height:2px;background:var(--gris-suave);margin:0 auto 24px}
+.success-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:linear-gradient(145deg,var(--azul-medio),var(--azul-profundo));color:#fff;text-decoration:none;font-size:15px;font-weight:600;border-radius:var(--radius-full);box-shadow:0 4px 14px rgba(27,58,92,.3);transition:transform .2s ease}
+.success-cta:hover{transform:translateY(-1px)}
+.success-cta svg{width:18px;height:18px}
+.token-error-screen{display:none;text-align:center;padding:80px 20px;animation:fadeIn .5s ease forwards}
+.token-error-screen.active{display:block}
+.token-error-circle{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--error),#B91C1C);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 8px 30px rgba(239,68,68,.25)}
+.token-error-circle svg{width:40px;height:40px;color:#fff;stroke-width:2.5}
+/* Premium gate (Step 6) */
+.premium-card{background:linear-gradient(135deg,var(--premium-light) 0%,#F5F3FF 100%);border:1.5px solid rgba(124,58,237,.18);border-radius:var(--radius-lg);padding:24px 20px;margin-top:20px}
+.premium-eyebrow{display:flex;align-items:center;gap:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:11px;color:var(--premium-dark);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}
+.premium-eyebrow svg{width:14px;height:14px}
+.premium-headline{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:22px;color:var(--azul-profundo);line-height:1.25;margin-bottom:12px}
+.premium-lead{font-size:14px;line-height:1.55;color:var(--texto-secundario);margin-bottom:20px}
+.premium-list{margin:0 0 24px;padding:0;list-style:none}
+.premium-list li{display:flex;gap:10px;padding:8px 0;font-size:14px;line-height:1.45;color:var(--texto-principal)}
+.premium-list li::before{content:'';flex-shrink:0;width:18px;height:18px;border-radius:50%;background:var(--premium);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");background-size:11px;background-position:center;background-repeat:no-repeat;margin-top:1px}
+.code-input-wrapper{display:flex;gap:10px;margin-bottom:8px}
+.code-input{flex:1;height:52px;padding:14px 16px;font-family:'Plus Jakarta Sans',monospace;font-size:16px;font-weight:600;letter-spacing:.06em;color:var(--azul-profundo);background:#FFFFFF;border:1.5px solid var(--metal-medio);border-radius:var(--radius-md);outline:none;text-transform:uppercase;transition:all .25s ease}
+.code-input:focus{border-color:var(--premium);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+.code-input.error{border-color:var(--error);box-shadow:0 0 0 3px rgba(239,68,68,.1)}
+.code-input.success{border-color:var(--exito);background:#F0FDF4}
+.code-btn{flex-shrink:0;height:52px;padding:0 22px;border:none;border-radius:var(--radius-md);background:linear-gradient(145deg,var(--premium),var(--premium-dark));color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s ease;-webkit-tap-highlight-color:transparent;box-shadow:0 4px 14px rgba(124,58,237,.25)}
+.code-btn:active{transform:scale(.97);box-shadow:inset 2px 2px 4px rgba(0,0,0,.2)}
+.code-btn:disabled{opacity:.6;cursor:not-allowed;transform:none!important}
+.code-btn .btn-spinner{display:none;width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+.code-btn.loading .btn-text{display:none}
+.code-btn.loading .btn-spinner{display:block}
+.skip-link{display:block;margin-top:18px;padding:14px;text-align:center;font-size:14px;color:var(--texto-secundario);background:transparent;border:1.5px dashed var(--metal-medio);border-radius:var(--radius-md);cursor:pointer;transition:all .2s ease;-webkit-tap-highlight-color:transparent;text-decoration:none;font-family:inherit}
+.skip-link:hover{color:var(--azul-medio);border-color:var(--azul-medio)}
+.premium-active-banner{display:none;align-items:center;gap:12px;padding:16px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--premium-light),#F5F3FF);border:1.5px solid rgba(124,58,237,.3);margin-bottom:18px}
+.premium-active-banner.visible{display:flex}
+.premium-active-banner-icon{width:36px;height:36px;border-radius:50%;background:var(--premium);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.premium-active-banner-icon svg{width:18px;height:18px;color:#fff}
+.premium-active-banner-text{font-size:13px;color:var(--premium-dark);line-height:1.4}
+.premium-active-banner-text strong{display:block;font-weight:700;font-size:14px;margin-bottom:2px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media(min-width:641px){.app-container{max-width:520px}.card{padding:28px 24px}}
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Cuestionario clínico</h1>
-    <p>Estamos construyendo una nueva versión más completa de nuestro cuestionario.</p>
-    <p>Mientras tanto, accede a la versión actual en formulario1.nexthorizont.ai</p>
-    <span class="badge">En desarrollo</span>
+<div class="app-container">
+
+<!-- TOKEN ERROR SCREEN -->
+<div class="token-error-screen" id="tokenErrorScreen">
+  <div class="token-error-circle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
   </div>
+  <h2 class="success-title">Enlace inválido</h2>
+  <p class="success-text" id="tokenErrorMessage">El enlace que has utilizado no es válido o ha caducado.</p>
+  <a href="https://centro.nexthorizont.com/empezar" class="success-cta">
+    Solicitar nuevo enlace
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </a>
+</div>
+
+<!-- HEADER -->
+<header class="app-header" id="appHeader">
+  <div class="clinic-brand">
+    <div class="clinic-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+    </div>
+    <div class="clinic-info">
+      <h1>Centro NextHorizont Health</h1>
+      <p>Evaluación clínica orientativa</p>
+    </div>
+  </div>
+  <div class="progress-bar" id="progressBar">
+    <div class="progress-dot active" data-step="1">1</div>
+    <div class="progress-line pending"></div>
+    <div class="progress-dot pending" data-step="2">2</div>
+    <div class="progress-line pending"></div>
+    <div class="progress-dot pending" data-step="3">3</div>
+    <div class="progress-line pending"></div>
+    <div class="progress-dot pending" data-step="4">4</div>
+    <div class="progress-line pending"></div>
+    <div class="progress-dot pending" data-step="5">5</div>
+    <div class="progress-line pending"></div>
+    <div class="progress-dot pending" data-step="6">6</div>
+    <div class="progress-line pending"></div>
+    <div class="progress-dot pending" data-step="7">7</div>
+  </div>
+</header>
+
+<div class="steps-wrapper" id="stepsWrapper">
+
+<!-- ============= STEP 1: Datos básicos ============= -->
+<div class="step active" data-step="1">
+  <div class="card">
+    <h2 class="card-title">
+      <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+      Datos básicos
+    </h2>
+    <div class="form-group">
+      <label class="form-label">Nombre y apellidos<span class="required">*</span></label>
+      <input type="text" class="input-text" id="nombre" placeholder="Ej: María García López" autocomplete="name" autocapitalize="words">
+      <div class="error-message" id="nombreError">Este campo es obligatorio</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Teléfono<span class="required">*</span></label>
+      <input type="tel" class="input-text" id="telefono" placeholder="Ej: 612 345 678" autocomplete="tel" inputmode="tel" maxlength="15">
+      <div class="error-message" id="telefonoError">Introduce un teléfono válido</div>
+    </div>
+    <div class="two-cols">
+      <div class="form-group">
+        <label class="form-label">Edad<span class="required">*</span></label>
+        <div class="stepper">
+          <button type="button" class="stepper-btn" onclick="changeStepper('edad',-1)" aria-label="Bajar edad">−</button>
+          <div class="stepper-value" id="edadDisplay">40</div>
+          <button type="button" class="stepper-btn" onclick="changeStepper('edad',1)" aria-label="Subir edad">+</button>
+        </div>
+        <input type="hidden" id="edad" value="40">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sexo<span class="required">*</span></label>
+        <div class="sex-selector">
+          <input type="radio" name="sexo" value="hombre" id="sexoH" class="sex-option" onchange="handleSexChange()">
+          <label for="sexoH" class="sex-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="14" r="5"/><path d="M19 5l-5.4 5.4"/><path d="M19 5h-4"/><path d="M19 5v4"/></svg><span>Hombre</span></label>
+          <input type="radio" name="sexo" value="mujer" id="sexoM" class="sex-option" onchange="handleSexChange()">
+          <label for="sexoM" class="sex-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="5"/><path d="M12 14v7"/><path d="M9 18h6"/></svg><span>Mujer</span></label>
+        </div>
+        <div class="error-message" id="sexoError">Seleccione una opción</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Peso actual<span class="required">*</span> <span class="optional" id="pesoLabel"></span></label>
+      <div class="slider-container">
+        <div class="slider-display"><div class="slider-tooltip" id="pesoDisplay">75.0 kg</div></div>
+        <input type="range" min="40" max="200" step="0.5" value="75" id="peso" oninput="updateSlider('peso',this.value,' kg')">
+        <div class="slider-labels"><span>40 kg</span><span>200 kg</span></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Altura<span class="required">*</span></label>
+      <div class="slider-container">
+        <div class="slider-display"><div class="slider-tooltip" id="alturaDisplay">170 cm</div></div>
+        <input type="range" min="130" max="210" step="1" value="170" id="altura" oninput="updateSlider('altura',this.value,' cm')">
+        <div class="slider-labels"><span>130 cm</span><span>210 cm</span></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Menor peso en últimos 5 años</label>
+      <div class="slider-container">
+        <div class="slider-display"><div class="slider-tooltip" id="menorPesoDisplay">65.0 kg</div></div>
+        <input type="range" min="40" max="200" step="0.5" value="65" id="menorPeso" oninput="updateSlider('menorPeso',this.value,' kg')">
+        <div class="slider-labels"><span>40 kg</span><span>200 kg</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-primary" onclick="nextStep()">Siguiente <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+  </div>
+</div>
+
+<!-- ============= STEP 2: Salud y enfermedades ============= -->
+<div class="step" data-step="2">
+  <div class="card">
+    <h2 class="card-title">
+      <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg></span>
+      Salud actual
+    </h2>
+    <div id="conditionWarnings"></div>
+    <div class="toggle-row"><span class="toggle-label-text">Hipertensión arterial</span><label class="toggle-switch"><input type="checkbox" id="hipertension" onchange="updateConditionWarnings()"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Hipotiroidismo</span><label class="toggle-switch"><input type="checkbox" id="hipotiroidismo" onchange="updateConditionWarnings()"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Colesterol</span><label class="toggle-switch"><input type="checkbox" id="colesterol" onchange="updateConditionWarnings()"><span class="toggle-slider"></span></label></div>
+    <div class="section-divider"></div>
+    <div class="form-group">
+      <label class="form-label">Otras enfermedades</label>
+      <span class="form-sublabel">Selecciona todas las que correspondan</span>
+      <div class="chips-grid" id="enfermedadesChips">
+        <input type="checkbox" class="chip-input" id="enf_dt1" value="Diabetes T1" data-group="enfermedades"><label for="enf_dt1" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Diabetes T1</label>
+        <input type="checkbox" class="chip-input" id="enf_dt2" value="Diabetes T2" data-group="enfermedades"><label for="enf_dt2" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Diabetes T2</label>
+        <input type="checkbox" class="chip-input" id="enf_asma" value="Asma" data-group="enfermedades"><label for="enf_asma" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Asma</label>
+        <input type="checkbox" class="chip-input" id="enf_artrosis" value="Artrosis" data-group="enfermedades"><label for="enf_artrosis" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Artrosis</label>
+        <input type="checkbox" class="chip-input" id="enf_depresion" value="Depresión" data-group="enfermedades"><label for="enf_depresion" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Depresión</label>
+        <input type="checkbox" class="chip-input" id="enf_ansiedad" value="Ansiedad" data-group="enfermedades"><label for="enf_ansiedad" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Ansiedad</label>
+        <input type="checkbox" class="chip-input" id="enf_epoc" value="EPOC" data-group="enfermedades"><label for="enf_epoc" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>EPOC</label>
+        <input type="checkbox" class="chip-input" id="enf_migranas" value="Migrañas" data-group="enfermedades"><label for="enf_migranas" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Migrañas</label>
+        <input type="checkbox" class="chip-input" id="enf_fibro" value="Fibromialgia" data-group="enfermedades"><label for="enf_fibro" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Fibromialgia</label>
+        <input type="checkbox" class="chip-input" id="enf_apnea" value="Apnea del sueño" data-group="enfermedades"><label for="enf_apnea" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Apnea del sueño</label>
+        <input type="checkbox" class="chip-input" id="enf_none" value="Ninguna" data-group="enfermedades" data-exclusive="true"><label for="enf_none" class="chip-label chip-none"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Ninguna</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">¿Otra no listada?</label>
+      <input type="text" class="input-text" id="enfermedadesOtras" placeholder="Especifica si tienes otra enfermedad…">
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-secondary" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Atrás</button>
+    <button class="btn btn-primary" onclick="nextStep()">Siguiente <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+  </div>
+</div>
+
+<!-- ============= STEP 3: Operaciones y medicación ============= -->
+<div class="step" data-step="3">
+  <div class="card">
+    <h2 class="card-title">
+      <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17a4 4 0 0 1-8 0"/><path d="M14 13V8a3 3 0 0 0-3-3"/><path d="M14 5l-3 3 3 3"/><circle cx="20" cy="17" r="3"/></svg></span>
+      Operaciones y medicación
+    </h2>
+    <div class="form-group">
+      <label class="form-label">¿Operaciones quirúrgicas?</label>
+      <span class="form-sublabel">Si has tenido alguna intervención</span>
+      <div class="chips-grid" id="operacionesChips">
+        <input type="checkbox" class="chip-input" id="op_rodilla" value="Rodilla" data-group="operaciones"><label for="op_rodilla" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Rodilla</label>
+        <input type="checkbox" class="chip-input" id="op_cadera" value="Cadera" data-group="operaciones"><label for="op_cadera" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Cadera</label>
+        <input type="checkbox" class="chip-input" id="op_columna" value="Columna" data-group="operaciones"><label for="op_columna" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Columna</label>
+        <input type="checkbox" class="chip-input" id="op_bgastrica" value="Cirugía bariátrica" data-group="operaciones"><label for="op_bgastrica" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Bariátrica</label>
+        <input type="checkbox" class="chip-input" id="op_vesicula" value="Vesícula" data-group="operaciones"><label for="op_vesicula" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Vesícula</label>
+        <input type="checkbox" class="chip-input" id="op_apendice" value="Apéndice" data-group="operaciones"><label for="op_apendice" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Apéndice</label>
+        <input type="checkbox" class="chip-input" id="op_none" value="Ninguna" data-group="operaciones" data-exclusive="true"><label for="op_none" class="chip-label chip-none"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Ninguna</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">¿Otra operación no listada?</label>
+      <input type="text" class="input-text" id="operacionesOtras" placeholder="Especifica si has tenido otra operación…">
+    </div>
+    <div class="section-divider"></div>
+    <div class="form-group">
+      <label class="form-label">Fármacos actuales</label>
+      <span class="form-sublabel">Lista los medicamentos que tomas habitualmente</span>
+      <textarea class="input-text" id="farmacos" placeholder="Ej: Metformina 850mg, Enalapril 5mg…"></textarea>
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-secondary" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Atrás</button>
+    <button class="btn btn-primary" onclick="nextStep()">Siguiente <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+  </div>
+</div>
+
+<!-- ============= STEP 4: Antecedentes y ginecología ============= -->
+<div class="step" data-step="4">
+  <div class="card">
+    <h2 class="card-title">
+      <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg></span>
+      Antecedentes
+    </h2>
+    <div class="toggle-row"><span class="toggle-label-text">Antecedentes familiares de diabetes<small>Padres, hermanos, abuelos</small></span><label class="toggle-switch"><input type="checkbox" id="antecDiabetes" onchange="toggleParentesco()"><span class="toggle-slider"></span></label></div>
+    <div class="conditional-section" id="parentescoSection">
+      <div class="subsection">
+        <div class="subsection-title">¿Quién?</div>
+        <div class="chips-grid">
+          <input type="checkbox" class="chip-input" id="par_padre" value="Padre" data-group="parentesco"><label for="par_padre" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Padre</label>
+          <input type="checkbox" class="chip-input" id="par_madre" value="Madre" data-group="parentesco"><label for="par_madre" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Madre</label>
+          <input type="checkbox" class="chip-input" id="par_hermanos" value="Hermanos" data-group="parentesco"><label for="par_hermanos" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Hermanos</label>
+          <input type="checkbox" class="chip-input" id="par_abuelos" value="Abuelos" data-group="parentesco"><label for="par_abuelos" class="chip-label"><svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Abuelos</label>
+        </div>
+      </div>
+    </div>
+    <div class="female-section" id="femaleSection">
+      <div class="section-divider"></div>
+      <div class="subsection-title" style="margin-bottom:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="5"/><path d="M12 14v7"/><path d="M9 18h6"/></svg> Salud femenina</div>
+      <div class="toggle-row"><span class="toggle-label-text">Ovario poliquístico</span><label class="toggle-switch"><input type="checkbox" id="ovarioPoliquistico"><span class="toggle-slider"></span></label></div>
+      <div class="toggle-row"><span class="toggle-label-text">Menopausia</span><label class="toggle-switch"><input type="checkbox" id="menopausia"><span class="toggle-slider"></span></label></div>
+      <div class="toggle-row"><span class="toggle-label-text">Reglas irregulares</span><label class="toggle-switch"><input type="checkbox" id="reglasIrregulares"><span class="toggle-slider"></span></label></div>
+      <div class="toggle-row"><span class="toggle-label-text">Endometriosis</span><label class="toggle-switch"><input type="checkbox" id="endometriosis"><span class="toggle-slider"></span></label></div>
+      <div class="toggle-row"><span class="toggle-label-text">Tratamientos de fertilidad<small>Actuales o pasados</small></span><label class="toggle-switch"><input type="checkbox" id="fertilidad"><span class="toggle-slider"></span></label></div>
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-secondary" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Atrás</button>
+    <button class="btn btn-primary" onclick="nextStep()">Siguiente <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+  </div>
+</div>
+
+<!-- ============= STEP 5: Estilo de vida ============= -->
+<div class="step" data-step="5">
+  <div class="card">
+    <h2 class="card-title">
+      <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+      Estilo de vida
+    </h2>
+    <div class="form-group">
+      <label class="form-label">Nivel de ansiedad<span class="required">*</span></label>
+      <span class="form-sublabel">Del 0 (sin ansiedad) al 10 (muy alta)</span>
+      <div class="slider-container">
+        <div class="slider-display"><div class="slider-tooltip" id="ansiedadDisplay">5</div></div>
+        <input type="range" min="0" max="10" step="1" value="5" id="ansiedad" class="slider-anxiety" oninput="updateSlider('ansiedad',this.value,'')">
+        <div class="slider-labels"><span>Sin ansiedad</span><span>Muy alta</span></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Control sobre la comida<span class="required">*</span></label>
+      <span class="form-sublabel">¿Cómo describes tu autocontrol?</span>
+      <div class="btn-group">
+        <input type="radio" name="controlComida" value="bajo" id="ctrl_bajo" class="btn-group-input"><label for="ctrl_bajo" class="btn-group-label">Bajo</label>
+        <input type="radio" name="controlComida" value="medio" id="ctrl_medio" class="btn-group-input" checked><label for="ctrl_medio" class="btn-group-label">Medio</label>
+        <input type="radio" name="controlComida" value="alto" id="ctrl_alto" class="btn-group-input"><label for="ctrl_alto" class="btn-group-label">Alto</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Motivación para adelgazar<span class="required">*</span></label>
+      <span class="form-sublabel">Del 1 (poca) al 10 (muy alta)</span>
+      <div class="slider-container">
+        <div class="slider-display"><div class="slider-tooltip" id="motivacionDisplay">7</div></div>
+        <input type="range" min="1" max="10" step="1" value="7" id="motivacion" class="slider-motivation" oninput="updateSlider('motivacion',this.value,'')">
+        <div class="slider-labels"><span>Poca</span><span>Muy alta</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-secondary" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Atrás</button>
+    <button class="btn btn-primary" onclick="nextStep()">Siguiente <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+  </div>
+</div>
+<!-- ============= STEP 6: Premium gate (código opcional) ============= -->
+<div class="step" data-step="6">
+  <div class="premium-card">
+    <div class="premium-eyebrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Evaluación premium · Opcional
+    </div>
+    <h2 class="premium-headline">¿Tienes un código de evaluación premium?</h2>
+    <p class="premium-lead">El informe premium incluye datos analíticos, comorbilidades graves y medicación detallada — el doctor recibe un dossier clínico completo antes de tu consulta.</p>
+    <ul class="premium-list">
+      <li>Análisis de sangre relevantes (HbA1c, glucemia, perfil lipídico, transaminasas)</li>
+      <li>Comorbilidades cardiovasculares, hepáticas y renales</li>
+      <li>Medicación detallada y posibles interacciones</li>
+      <li>Estilo de vida ampliado y factores de adherencia</li>
+    </ul>
+    <div class="form-group" style="margin-bottom:14px">
+      <label class="form-label">Introduce tu código premium</label>
+      <span class="form-sublabel">Formato: NH-XXXX-XXXX</span>
+      <div class="code-input-wrapper">
+        <input type="text" class="code-input" id="premiumCode" placeholder="NH-XXXX-XXXX" maxlength="11" autocomplete="off" autocapitalize="characters" spellcheck="false">
+        <button type="button" class="code-btn" id="codeBtn" onclick="canjearCodigo()">
+          <span class="btn-text">Canjear</span>
+          <span class="btn-spinner"></span>
+        </button>
+      </div>
+      <div class="error-message" id="codeError">Código no válido</div>
+      <div class="success-inline" id="codeSuccess">✓ Código canjeado correctamente — desbloqueada sección premium</div>
+    </div>
+    <button type="button" class="skip-link" onclick="skipPremium()">No tengo código — continuar con evaluación gratuita</button>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-secondary" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Atrás</button>
+  </div>
+</div>
+
+<!-- ============= STEP 7: Datos PREMIUM (solo visible si premiumActive=true) ============= -->
+<div class="step" data-step="7">
+  <div class="premium-active-banner visible" id="premiumActiveBanner">
+    <div class="premium-active-banner-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="premium-active-banner-text">
+      <strong>Evaluación premium activa</strong>
+      <span id="premiumCodeDisplay">Código aplicado correctamente</span>
+    </div>
+  </div>
+
+  <div class="card card-premium">
+    <h2 class="card-title title-premium">
+      <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11h.01"/><path d="M11 15h.01"/><path d="M16 16h.01"/><path d="m2 16 20 6-6-20A20 20 0 0 0 2 16"/><path d="M5.71 17.11a17.04 17.04 0 0 1 11.4-11.4"/></svg></span>
+      Datos clínicos premium
+    </h2>
+
+    <!-- ANALÍTICAS -->
+    <div class="subsection-divider"><span>Analíticas recientes</span></div>
+    <p class="form-sublabel" style="margin-bottom:18px">Si dispones de tu última analítica de sangre, déjala vacía si no la conoces</p>
+    <div class="two-cols">
+      <div class="form-group">
+        <label class="form-label">HbA1c (%)</label>
+        <input type="number" step="0.1" min="3" max="20" class="input-text input-premium" id="hba1c" placeholder="Ej: 6.2">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Glucosa (mg/dL)</label>
+        <input type="number" step="1" min="40" max="600" class="input-text input-premium" id="glucosa" placeholder="Ej: 110">
+      </div>
+    </div>
+    <div class="two-cols">
+      <div class="form-group">
+        <label class="form-label">Colesterol total</label>
+        <input type="number" step="1" min="50" max="600" class="input-text input-premium" id="colesterolTotal" placeholder="mg/dL">
+      </div>
+      <div class="form-group">
+        <label class="form-label">HDL</label>
+        <input type="number" step="1" min="10" max="200" class="input-text input-premium" id="colesterolHdl" placeholder="mg/dL">
+      </div>
+    </div>
+    <div class="two-cols">
+      <div class="form-group">
+        <label class="form-label">LDL</label>
+        <input type="number" step="1" min="10" max="500" class="input-text input-premium" id="colesterolLdl" placeholder="mg/dL">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Triglicéridos</label>
+        <input type="number" step="1" min="20" max="2000" class="input-text input-premium" id="triglyc" placeholder="mg/dL">
+      </div>
+    </div>
+    <div class="two-cols">
+      <div class="form-group">
+        <label class="form-label">GOT (AST)</label>
+        <input type="number" step="1" min="0" max="2000" class="input-text input-premium" id="got" placeholder="U/L">
+      </div>
+      <div class="form-group">
+        <label class="form-label">GPT (ALT)</label>
+        <input type="number" step="1" min="0" max="2000" class="input-text input-premium" id="gpt" placeholder="U/L">
+      </div>
+    </div>
+
+    <!-- COMORBILIDADES -->
+    <div class="subsection-divider"><span>Condiciones especiales</span></div>
+    <div class="toggle-row"><span class="toggle-label-text">Arritmias cardíacas</span><label class="toggle-switch"><input type="checkbox" id="enf_arritmias"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Insuficiencia cardíaca</span><label class="toggle-switch"><input type="checkbox" id="enf_ic"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Hepatopatía<small>Hígado graso, hepatitis, cirrosis</small></span><label class="toggle-switch"><input type="checkbox" id="enf_hepatopatia"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Insuficiencia renal</span><label class="toggle-switch"><input type="checkbox" id="enf_renal"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Pancreatitis previa</span><label class="toggle-switch"><input type="checkbox" id="enf_pancreatitis"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Enfermedad inflamatoria intestinal<small>Crohn, colitis ulcerosa</small></span><label class="toggle-switch"><input type="checkbox" id="enf_eii"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Gastroparesia</span><label class="toggle-switch"><input type="checkbox" id="enf_gastroparesia"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Vesícula biliar / cálculos</span><label class="toggle-switch"><input type="checkbox" id="enf_vesicula"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Reflujo gastroesofágico (GERD)</span><label class="toggle-switch"><input type="checkbox" id="enf_gerd"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Trastornos de la conducta alimentaria<small>Anorexia, bulimia, atracones</small></span><label class="toggle-switch"><input type="checkbox" id="enf_eating"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Obesidad de larga evolución<small>Más de 5 años</small></span><label class="toggle-switch"><input type="checkbox" id="enf_obesidad_hist"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Cirugía bariátrica previa</span><label class="toggle-switch"><input type="checkbox" id="enf_bariatrica"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Medicación previa de pérdida de peso</span><label class="toggle-switch"><input type="checkbox" id="enf_med_perdida"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Osteoporosis</span><label class="toggle-switch"><input type="checkbox" id="enf_osteo"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Gota</span><label class="toggle-switch"><input type="checkbox" id="enf_gota"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Antecedentes de cáncer</span><label class="toggle-switch"><input type="checkbox" id="enf_cancer"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Trastorno hemorrágico</span><label class="toggle-switch"><input type="checkbox" id="enf_hemo"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Enfermedad autoinmune</span><label class="toggle-switch"><input type="checkbox" id="enf_autoinmune"><span class="toggle-slider"></span></label></div>
+
+    <!-- MEDICACIÓN -->
+    <div class="subsection-divider"><span>Medicación habitual</span></div>
+    <div class="toggle-row"><span class="toggle-label-text">Antihipertensivos</span><label class="toggle-switch"><input type="checkbox" id="med_aht"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Antidiabéticos orales</span><label class="toggle-switch"><input type="checkbox" id="med_adoral"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Insulina rápida</span><label class="toggle-switch"><input type="checkbox" id="med_irap"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Insulina lenta</span><label class="toggle-switch"><input type="checkbox" id="med_ilenta"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Corticoides</span><label class="toggle-switch"><input type="checkbox" id="med_corti"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Antipsicóticos</span><label class="toggle-switch"><input type="checkbox" id="med_aps"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Antidepresivos</span><label class="toggle-switch"><input type="checkbox" id="med_adep"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Diuréticos</span><label class="toggle-switch"><input type="checkbox" id="med_diu"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Anticoagulantes</span><label class="toggle-switch"><input type="checkbox" id="med_anticoag"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Antiinflamatorios crónicos</span><label class="toggle-switch"><input type="checkbox" id="med_aine"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Inmunosupresores</span><label class="toggle-switch"><input type="checkbox" id="med_inmu"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Anticuerpos monoclonales</span><label class="toggle-switch"><input type="checkbox" id="med_acmono"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Quimioterapia<small>Actual o reciente</small></span><label class="toggle-switch"><input type="checkbox" id="med_quimio"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Eutirox / levotiroxina</span><label class="toggle-switch"><input type="checkbox" id="med_eutirox"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Benzodiazepinas</span><label class="toggle-switch"><input type="checkbox" id="med_bzd"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Opioides</span><label class="toggle-switch"><input type="checkbox" id="med_opi"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Aerosoles inhalados</span><label class="toggle-switch"><input type="checkbox" id="med_aero"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Broncodilatadores</span><label class="toggle-switch"><input type="checkbox" id="med_bronco"><span class="toggle-slider"></span></label></div>
+
+    <!-- ESTILO DE VIDA AMPLIADO -->
+    <div class="subsection-divider"><span>Estilo de vida ampliado</span></div>
+    <div class="form-group">
+      <label class="form-label">Nivel de estrés</label>
+      <div class="btn-group">
+        <input type="radio" name="nivelEstres" value="low" id="estres_low" class="btn-group-input"><label for="estres_low" class="btn-group-label">Bajo</label>
+        <input type="radio" name="nivelEstres" value="medium" id="estres_med" class="btn-group-input" checked><label for="estres_med" class="btn-group-label">Medio</label>
+        <input type="radio" name="nivelEstres" value="high" id="estres_high" class="btn-group-input"><label for="estres_high" class="btn-group-label">Alto</label>
+      </div>
+    </div>
+    <div class="toggle-row"><span class="toggle-label-text">Entreno fuerza<small>Pesas, ejercicios de resistencia</small></span><label class="toggle-switch"><input type="checkbox" id="entrenaFuerza" onchange="toggleFrecuenciaFuerza()"><span class="toggle-slider"></span></label></div>
+    <div class="conditional-section" id="frecuenciaFuerzaSection">
+      <div class="subsection">
+        <div class="subsection-title">Frecuencia semanal</div>
+        <div class="slider-container">
+          <div class="slider-display"><div class="slider-tooltip" id="freqFuerzaDisplay">3 días</div></div>
+          <input type="range" min="0" max="7" step="1" value="3" id="freqFuerza" oninput="updateFreqFuerza(this.value)">
+          <div class="slider-labels"><span>0 días</span><span>7 días</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Consumo de alcohol</label>
+      <div class="btn-group">
+        <input type="radio" name="consumoAlcohol" value="never" id="alc_never" class="btn-group-input" checked><label for="alc_never" class="btn-group-label">Nunca</label>
+        <input type="radio" name="consumoAlcohol" value="rare" id="alc_rare" class="btn-group-input"><label for="alc_rare" class="btn-group-label">Ocasional</label>
+        <input type="radio" name="consumoAlcohol" value="frequent" id="alc_freq" class="btn-group-input"><label for="alc_freq" class="btn-group-label">Frecuente</label>
+      </div>
+    </div>
+    <div class="toggle-row"><span class="toggle-label-text">Cirugía próxima<small>Programada en próximos 3 meses</small></span><label class="toggle-switch"><input type="checkbox" id="cirugiaProxima"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">Uso de CPAP<small>Para apnea del sueño</small></span><label class="toggle-switch"><input type="checkbox" id="usaCpap"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-row"><span class="toggle-label-text">En diálisis</span><label class="toggle-switch"><input type="checkbox" id="enDialisis"><span class="toggle-slider"></span></label></div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-secondary" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Atrás</button>
+    <button class="btn btn-primary" onclick="goToConsent()">Siguiente <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+  </div>
+</div>
+
+</div><!-- /steps-wrapper -->
+
+<!-- CONSENT BOX (visible al llegar al último paso lógico) -->
+<div class="consent-box" id="consentBox" style="display:none">
+  <div class="consent-input">
+    <input type="checkbox" id="consentimiento" class="consent-input">
+  </div>
+  <label for="consentimiento" class="consent-label">
+    <div class="consent-checkbox">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <span class="consent-text">
+      Acepto el tratamiento de mis datos clínicos para la generación del informe orientativo, conforme al RGPD. Más información en
+      <a href="https://centro.nexthorizont.com/privacidad" target="_blank" rel="noopener" class="consent-link">Política de Privacidad</a>.
+    </span>
+  </label>
+  <div class="error-message" id="consentError" style="margin-top:10px">Debes aceptar el tratamiento de datos para continuar</div>
+</div>
+
+<!-- SUBMIT BUTTON (visible al final) -->
+<div class="nav-buttons" id="submitNav" style="display:none">
+  <button class="btn btn-secondary" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Atrás</button>
+  <button class="btn btn-primary btn-submit" id="submitBtn" onclick="submitForm()">
+    <span class="btn-text">Generar mi informe</span>
+    <span class="btn-spinner"></span>
+  </button>
+</div>
+<p class="required-note" id="requiredNote" style="display:none">Tu informe estará listo en segundos</p>
+
+<!-- SUCCESS SCREEN -->
+<div class="success-screen" id="successScreen">
+  <div class="success-circle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <h2 class="success-title">Informe generado</h2>
+  <p class="success-text">Tu evaluación clínica orientativa está lista. Pulsa el botón para ver tu informe.</p>
+  <div class="success-divider"></div>
+  <a id="reportLink" class="success-cta" target="_blank" rel="noopener">
+    Ver mi informe
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </a>
+  <p class="success-text" style="margin-top:32px;font-size:13px">También recibirás el enlace por WhatsApp en breve.</p>
+</div>
+
+</div><!-- /app-container -->
+<script>
+/* ============================================================================
+   CUESTIONARIO V2 — Centro NextHorizont Health
+   ============================================================================
+   Flujo:
+     1. Lee ?token=XXX de la URL (token de clinica_enlaces_pacientes)
+     2. Valida que el token existe y no está usado/caducado
+     3. Usuario navega Steps 1→5 (FREE) → Step 6 (premium gate) → Step 7 (PREMIUM si código) → Submit
+     4. POST a /webhook/cuestionario-v2 con todos los campos
+     5. Recibe { token: <hex64>, url: '...' } y redirige a centro.nexthorizont.com/informe/:token
+
+   Decisiones:
+     - El código premium se canjea contra Supabase ANTES del submit (vía RPC consume_premium_code)
+       → Si falla la RPC, el banner de error es claro
+       → Si funciona, se almacena premiumActive=true y se desbloquea Step 7
+     - El paciente puede saltar Step 6 → Submit directo con plan_tipo='free'
+     - Step 7 SOLO se muestra si premiumActive=true. Si no, se va directo de Step 6 al consent.
+     - Validación: solo Step 1 y Step 5 son obligatorios. Resto: chips/toggles libres.
+     - Sin gestión de fármacos en lista: textarea libre (mantiene compat v1).
+     - Si el token está marcado como "usado", se permite reintentar (no rompemos UX).
+   ============================================================================ */
+
+const SUPABASE_URL = 'https://bpazmmbjjducdmxgfoum.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwYXptbWJqamR1Y2RteGdmb3VtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4MjY1MTksImV4cCI6MjA4MzQwMjUxOX0.uZd2m7JMXd_i-bZVsTQTcqTEhJMxLXwvdPLK74h07Kw';
+const WEBHOOK_URL = 'https://n8n.nexthorizont.ai/webhook/cuestionario-v2';
+const REPORT_BASE_URL = 'https://centro.nexthorizont.com/informe/';
+const TOTAL_STEPS = 7; // 5 free + 1 gate + 1 premium
+
+let currentStep = 1;
+let accessToken = null;     // token de clinica_enlaces_pacientes
+let premiumActive = false;  // true cuando consume_premium_code() devuelve OK
+let premiumCodeUsed = null; // el código NH-XXXX-XXXX canjeado
+let pacienteId = null;      // ID del row en clinica_respuestas_pacientes (lo asigna el INSERT)
+
+// ============================================================================
+// Token validation on load
+// ============================================================================
+
+async function sbReq(path, opts = {}) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...opts,
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: opts.prefer || 'return=representation',
+      ...opts.headers
+    }
+  });
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();
+}
+
+async function validateToken(token) {
+  // Buscar el token en clinica_enlaces_pacientes
+  const rows = await sbReq(`clinica_enlaces_pacientes?token=eq.${encodeURIComponent(token)}&select=token,nombre_paciente,expira_at,usado&limit=1`);
+  if (!rows || rows.length === 0) return { ok: false, reason: 'not_found' };
+  const r = rows[0];
+  if (r.expira_at && new Date(r.expira_at) < new Date()) return { ok: false, reason: 'expired' };
+  return { ok: true, nombrePaciente: r.nombre_paciente, yaUsado: r.usado };
+}
+
+function showTokenError(msg) {
+  document.getElementById('appHeader').style.display = 'none';
+  document.getElementById('stepsWrapper').style.display = 'none';
+  if (msg) document.getElementById('tokenErrorMessage').textContent = msg;
+  document.getElementById('tokenErrorScreen').classList.add('active');
+}
+
+async function initApp() {
+  // Leer token desde ?token=XXX o ?t=XXX
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('token') || params.get('t');
+  if (!t) {
+    showTokenError('Este enlace no incluye un identificador. Solicita uno nuevo desde la página principal.');
+    return;
+  }
+  if (!/^[a-f0-9]{16,128}$/i.test(t)) {
+    showTokenError('El identificador del enlace no tiene un formato válido.');
+    return;
+  }
+  try {
+    const r = await validateToken(t);
+    if (!r.ok) {
+      const msg = r.reason === 'expired'
+        ? 'Este enlace ha caducado. Solicita uno nuevo desde la página principal.'
+        : 'No encontramos este enlace. Solicita uno nuevo desde la página principal.';
+      showTokenError(msg);
+      return;
+    }
+    accessToken = t;
+    // Pre-rellenar nombre si se conoce
+    if (r.nombrePaciente) {
+      document.getElementById('nombre').value = r.nombrePaciente;
+    }
+  } catch (e) {
+    console.error('Token validation error:', e);
+    showTokenError('No pudimos validar tu enlace. Comprueba tu conexión e inténtalo de nuevo.');
+  }
+}
+
+// ============================================================================
+// Stepper / sliders / chips helpers
+// ============================================================================
+
+function changeStepper(id, delta) {
+  const input = document.getElementById(id);
+  const display = document.getElementById(id + 'Display');
+  let v = parseInt(input.value) + delta;
+  if (id === 'edad') v = Math.max(16, Math.min(99, v));
+  input.value = v;
+  display.textContent = v;
+}
+
+function updateSlider(id, value, suffix) {
+  const display = document.getElementById(id + 'Display');
+  if (id === 'peso' || id === 'menorPeso') {
+    display.textContent = parseFloat(value).toFixed(1) + suffix;
+  } else {
+    display.textContent = value + suffix;
+  }
+}
+
+function updateFreqFuerza(value) {
+  const v = parseInt(value);
+  const label = v === 1 ? '1 día' : v + ' días';
+  document.getElementById('freqFuerzaDisplay').textContent = label;
+}
+
+function handleSexChange() {
+  const sx = document.querySelector('input[name="sexo"]:checked');
+  const fs = document.getElementById('femaleSection');
+  if (sx && sx.value === 'mujer') {
+    fs.classList.add('visible');
+  } else {
+    fs.classList.remove('visible');
+  }
+}
+
+function toggleParentesco() {
+  const checked = document.getElementById('antecDiabetes').checked;
+  const sec = document.getElementById('parentescoSection');
+  if (checked) sec.classList.add('visible'); else sec.classList.remove('visible');
+}
+
+function toggleFrecuenciaFuerza() {
+  const checked = document.getElementById('entrenaFuerza').checked;
+  const sec = document.getElementById('frecuenciaFuerzaSection');
+  if (checked) sec.classList.add('visible'); else sec.classList.remove('visible');
+}
+
+function updateConditionWarnings() {
+  // Si quieres avisos contextuales aquí; placeholder vacío por ahora.
+}
+
+// Chip exclusive ('Ninguna'): si se marca, desmarca otros del grupo
+document.addEventListener('change', (e) => {
+  const t = e.target;
+  if (!t.classList || !t.classList.contains('chip-input')) return;
+  const group = t.dataset.group;
+  if (!group) return;
+  if (t.dataset.exclusive === 'true' && t.checked) {
+    // Desmarcar todos los demás del grupo
+    document.querySelectorAll(`.chip-input[data-group="${group}"]:not([data-exclusive])`).forEach(c => c.checked = false);
+  } else if (t.checked) {
+    // Si marcamos uno normal, desmarca el "Ninguna"
+    document.querySelectorAll(`.chip-input[data-group="${group}"][data-exclusive="true"]`).forEach(c => c.checked = false);
+  }
+});
+
+// ============================================================================
+// Step navigation
+// ============================================================================
+
+function setActiveStep(targetStep) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const target = document.querySelector(`.step[data-step="${targetStep}"]`);
+  if (target) target.classList.add('active');
+  currentStep = targetStep;
+  updateProgress();
+  // Scroll suave al top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Mostrar/ocultar consent y submit en último paso lógico
+  updateBottomUI();
+}
+
+function updateProgress() {
+  // Solo marcamos los dots desde 1 hasta 5 (free) y 6, 7 si premium
+  const maxVisible = premiumActive ? 7 : 6;
+  document.querySelectorAll('.progress-dot').forEach(dot => {
+    const s = parseInt(dot.dataset.step);
+    dot.classList.remove('active', 'completed', 'pending', 'premium');
+    if (s > maxVisible) {
+      dot.style.display = 'none';
+    } else {
+      dot.style.display = 'flex';
+      if (s < currentStep) dot.classList.add('completed');
+      else if (s === currentStep) dot.classList.add('active');
+      else dot.classList.add('pending');
+      if (s === 7 && premiumActive) {
+        dot.classList.add('premium');
+        if (s === currentStep) dot.classList.add('active');
+      }
+    }
+  });
+  // Líneas
+  const lines = document.querySelectorAll('.progress-line');
+  lines.forEach((line, idx) => {
+    const stepIdx = idx + 1;
+    line.classList.remove('completed', 'pending', 'premium');
+    if (stepIdx >= maxVisible) {
+      line.style.display = 'none';
+    } else {
+      line.style.display = 'block';
+      if (stepIdx < currentStep) line.classList.add('completed');
+      else line.classList.add('pending');
+    }
+  });
+}
+
+function updateBottomUI() {
+  // Consent + submit visible solo cuando estamos en el último paso lógico
+  const lastLogicalStep = premiumActive ? 7 : 6;
+  const isLast = currentStep === lastLogicalStep;
+  document.getElementById('consentBox').style.display = isLast ? 'block' : 'none';
+  document.getElementById('submitNav').style.display = isLast ? 'flex' : 'none';
+  document.getElementById('requiredNote').style.display = isLast ? 'block' : 'none';
+}
+
+function nextStep() {
+  if (!validateStep(currentStep)) return;
+  if (currentStep === 6) {
+    // Step 6 → si premium activo, vamos a 7; si no, nos quedamos en 6 (el botón
+    // de avanzar no existe en step 6: solo "Canjear" o "Skip premium")
+    return;
+  }
+  if (currentStep < TOTAL_STEPS) {
+    setActiveStep(currentStep + 1);
+  }
+}
+
+function prevStep() {
+  if (currentStep === 1) return;
+  // Si estamos en step 7 (premium) y vamos atrás, volvemos a step 6 que sigue siendo el gate
+  if (currentStep > 1) setActiveStep(currentStep - 1);
+}
+
+function goToConsent() {
+  // Llamada desde el botón "Siguiente" del Step 7 (premium)
+  // Aquí no validamos premium (todos campos son opcionales) — solo navegamos
+  // No avanzamos a otro step: ya estamos en el último, mostramos el consent + submit
+  // La función updateBottomUI() lo hace al setActiveStep, pero como ya estamos en 7,
+  // forzamos refresh
+  updateBottomUI();
+  // Scroll al consent
+  document.getElementById('consentBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ============================================================================
+// Step 6: canjear código premium
+// ============================================================================
+
+async function canjearCodigo() {
+  const input = document.getElementById('premiumCode');
+  const btn = document.getElementById('codeBtn');
+  const errEl = document.getElementById('codeError');
+  const okEl = document.getElementById('codeSuccess');
+  const code = input.value.trim().toUpperCase();
+  errEl.classList.remove('visible');
+  okEl.classList.remove('visible');
+  input.classList.remove('error', 'success');
+
+  // Validación formato (NH- seguido de 4 chars + - + 4 chars)
+  if (!/^NH-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)) {
+    errEl.textContent = 'Formato no válido. Debe ser NH-XXXX-XXXX';
+    errEl.classList.add('visible');
+    input.classList.add('error');
+    return;
+  }
+
+  // RPC consume_premium_code(p_codigo, p_paciente_id)
+  // p_paciente_id puede ser NULL si todavía no hemos hecho INSERT en clinica_respuestas_pacientes
+  // La función está diseñada para aceptar NULL (debemos validar que la firma lo permite).
+  // En caso contrario, hacemos validación liviana: comprobar que existe + no está usado.
+  btn.classList.add('loading');
+  btn.disabled = true;
+  input.disabled = true;
+  try {
+    // Estrategia: verificar primero que el código existe y no está usado.
+    // El consume_premium_code lo dejamos para el momento del submit, asociado al pacienteId real.
+    const rows = await sbReq(`nm_premium_codes?codigo=eq.${encodeURIComponent(code)}&select=codigo,usado,expira_at&limit=1`);
+    if (!rows || rows.length === 0) {
+      throw new Error('not_found');
+    }
+    const row = rows[0];
+    if (row.usado) throw new Error('already_used');
+    if (row.expira_at && new Date(row.expira_at) < new Date()) throw new Error('expired');
+
+    // OK — el código es válido. Lo guardamos para canjear en el submit.
+    premiumActive = true;
+    premiumCodeUsed = code;
+    okEl.classList.add('visible');
+    input.classList.add('success');
+    // Mostrar banner del Step 7
+    document.getElementById('premiumCodeDisplay').textContent = `Código ${code} aplicado correctamente`;
+    document.getElementById('premiumActiveBanner').classList.add('visible');
+    // Refrescar progress (ahora se ven 7 dots) y avanzar al Step 7 tras 1.2s
+    updateProgress();
+    setTimeout(() => {
+      setActiveStep(7);
+    }, 1200);
+  } catch (e) {
+    let msg = 'Código no válido';
+    if (e.message === 'already_used') msg = 'Este código ya ha sido utilizado';
+    else if (e.message === 'expired') msg = 'Este código ha caducado';
+    else if (e.message === 'not_found') msg = 'Código no encontrado';
+    errEl.textContent = msg;
+    errEl.classList.add('visible');
+    input.classList.add('error');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    input.disabled = false;
+  }
+}
+
+function skipPremium() {
+  // Saltamos directamente al consent + submit (estamos ya en step 6, mostramos consent)
+  premiumActive = false;
+  premiumCodeUsed = null;
+  // Cambiamos visualmente: ocultamos el progress dot 7 y mostramos consent
+  updateProgress();
+  updateBottomUI();
+  // Scroll al consent
+  setTimeout(() => {
+    document.getElementById('consentBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
+}
+
+// Auto-formato del input del código (XXXX-XXXX-XXXX → NH-XXXX-XXXX al pegar)
+document.addEventListener('DOMContentLoaded', () => {
+  const codeInput = document.getElementById('premiumCode');
+  if (codeInput) {
+    codeInput.addEventListener('input', (e) => {
+      let v = e.target.value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+      // Auto-añadir 'NH-' si el usuario empieza directamente con dígitos
+      if (v && !v.startsWith('NH-') && !v.startsWith('NH')) {
+        if (/^[A-Z0-9]/.test(v)) v = 'NH-' + v;
+      }
+      // Auto-añadir guión después de NH-XXXX
+      if (v.length === 7 && v[6] !== '-' && /^NH-[A-Z0-9]{4}$/.test(v)) {
+        v = v + '-';
+      }
+      e.target.value = v;
+    });
+  }
+});
+
+// ============================================================================
+// Validation
+// ============================================================================
+
+function validateStep(step) {
+  let ok = true;
+  if (step === 1) {
+    const nombre = document.getElementById('nombre').value.trim();
+    const tel = document.getElementById('telefono').value.trim();
+    const sex = document.querySelector('input[name="sexo"]:checked');
+    if (nombre.length < 3) {
+      document.getElementById('nombre').classList.add('error');
+      document.getElementById('nombreError').classList.add('visible');
+      ok = false;
+    }
+    if (!tel || !/^[+\d\s\-()]{6,20}$/.test(tel)) {
+      document.getElementById('telefono').classList.add('error');
+      document.getElementById('telefonoError').classList.add('visible');
+      ok = false;
+    }
+    if (!sex) {
+      document.getElementById('sexoError').classList.add('visible');
+      ok = false;
+    }
+  }
+  // Otros steps son opcionales — no bloqueamos
+  return ok;
+}
+
+// Limpiar errores al escribir
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.input-text').forEach(i => {
+    i.addEventListener('input', () => {
+      i.classList.remove('error');
+      const e = i.parentElement.querySelector('.error-message');
+      if (e) e.classList.remove('visible');
+    });
+  });
+});
+
+// ============================================================================
+// Submit
+// ============================================================================
+
+function num(id) {
+  const v = document.getElementById(id).value.trim();
+  if (!v) return null;
+  const n = parseFloat(v);
+  return isFinite(n) ? n : null;
+}
+
+function chk(id) {
+  return document.getElementById(id).checked;
+}
+
+function chips(group) {
+  return Array.from(document.querySelectorAll(`.chip-input[data-group="${group}"]:checked:not([data-exclusive])`)).map(c => c.value);
+}
+
+function collectFormData() {
+  const sx = document.querySelector('input[name="sexo"]:checked');
+  const ct = document.querySelector('input[name="controlComida"]:checked');
+  const est = document.querySelector('input[name="nivelEstres"]:checked');
+  const alc = document.querySelector('input[name="consumoAlcohol"]:checked');
+
+  const data = {
+    // === FREE (33 campos, idénticos a v1 + altura_cm añadido) ===
+    token_acceso: accessToken,
+    nombre_apellidos: document.getElementById('nombre').value.trim(),
+    telefono: document.getElementById('telefono').value.trim(),
+    edad: parseInt(document.getElementById('edad').value),
+    sexo: sx ? sx.value : '',
+    peso_actual: parseFloat(document.getElementById('peso').value),
+    altura_cm: parseFloat(document.getElementById('altura').value),
+    menor_peso_5_anios: parseFloat(document.getElementById('menorPeso').value),
+    hipertension: chk('hipertension'),
+    hipotiroidismo: chk('hipotiroidismo'),
+    colesterol: chk('colesterol'),
+    enfermedades_chips: chips('enfermedades'),
+    enfermedades_otras: document.getElementById('enfermedadesOtras').value.trim() || null,
+    operaciones_chips: chips('operaciones'),
+    operaciones_otras: document.getElementById('operacionesOtras').value.trim() || null,
+    farmacos: document.getElementById('farmacos').value.trim() || null,
+    antecedentes_diabetes: chk('antecDiabetes'),
+    antecedentes_diabetes_parentesco: chips('parentesco'),
+    ovario_poliquistico: chk('ovarioPoliquistico'),
+    menopausia: chk('menopausia'),
+    reglas_irregulares: chk('reglasIrregulares'),
+    endometriosis: chk('endometriosis'),
+    tratamientos_fertilidad: chk('fertilidad'),
+    nivel_ansiedad: parseInt(document.getElementById('ansiedad').value),
+    control_comida: ct ? ct.value : 'medio',
+    motivacion_adelgazar: parseInt(document.getElementById('motivacion').value),
+    plan_tipo: premiumActive ? 'premium' : 'free',
+    agent_id: 'cuestionario_v2'
+  };
+
+  // === PREMIUM (52 campos extra) — solo si premium activo ===
+  if (premiumActive) {
+    Object.assign(data, {
+      premium_codigo: premiumCodeUsed,
+      // Analíticas
+      hba1c_pct: num('hba1c'),
+      glucosa_mgdl: num('glucosa'),
+      colesterol_total_mgdl: num('colesterolTotal'),
+      colesterol_hdl_mgdl: num('colesterolHdl'),
+      colesterol_ldl_mgdl: num('colesterolLdl'),
+      triglyc_mgdl: num('triglyc'),
+      got_ul: num('got'),
+      gpt_ul: num('gpt'),
+      // Comorbilidades
+      enf_arritmias_cardiacas: chk('enf_arritmias'),
+      enf_insuficiencia_cardiaca: chk('enf_ic'),
+      enf_hepatopatia: chk('enf_hepatopatia'),
+      enf_insuficiencia_renal: chk('enf_renal'),
+      enf_pancreatitis: chk('enf_pancreatitis'),
+      enf_eii: chk('enf_eii'),
+      enf_gastroparesia: chk('enf_gastroparesia'),
+      enf_vesicula_biliar: chk('enf_vesicula'),
+      enf_gerd: chk('enf_gerd'),
+      enf_eating_disorders: chk('enf_eating'),
+      enf_obesidad_historica: chk('enf_obesidad_hist'),
+      enf_cirugia_bariatrica: chk('enf_bariatrica'),
+      enf_med_perdida_peso_previa: chk('enf_med_perdida'),
+      enf_osteoporosis: chk('enf_osteo'),
+      enf_gota: chk('enf_gota'),
+      enf_cancer: chk('enf_cancer'),
+      enf_trastorno_hemorragico: chk('enf_hemo'),
+      enf_autoinmune: chk('enf_autoinmune'),
+      // Medicación
+      med_antihipertensivos: chk('med_aht'),
+      med_antidiab_orales: chk('med_adoral'),
+      med_insulina_rapida: chk('med_irap'),
+      med_insulina_lenta: chk('med_ilenta'),
+      med_corticoides: chk('med_corti'),
+      med_antipsicoticos: chk('med_aps'),
+      med_antidepresivos: chk('med_adep'),
+      med_diureticos: chk('med_diu'),
+      med_anticoagulantes: chk('med_anticoag'),
+      med_antiinflamatorios: chk('med_aine'),
+      med_inmunosupresores: chk('med_inmu'),
+      med_anticuerpos_monoclonales: chk('med_acmono'),
+      med_quimioterapia: chk('med_quimio'),
+      med_eutirox: chk('med_eutirox'),
+      med_benzodiazepinas: chk('med_bzd'),
+      med_opioides: chk('med_opi'),
+      med_aerosoles: chk('med_aero'),
+      med_broncodilatadores: chk('med_bronco'),
+      // Estilo de vida ampliado
+      nivel_estres: est ? est.value : 'medium',
+      entrena_fuerza: chk('entrenaFuerza'),
+      entrena_fuerza_frecuencia: parseInt(document.getElementById('freqFuerza').value),
+      consumo_alcohol: alc ? alc.value : 'never',
+      cirugia_proxima: chk('cirugiaProxima'),
+      usa_cpap: chk('usaCpap'),
+      en_dialisis: chk('enDialisis')
+    });
+  }
+
+  return data;
+}
+
+async function submitForm() {
+  if (!document.getElementById('consentimiento').checked) {
+    document.getElementById('consentError').classList.add('visible');
+    return;
+  }
+  document.getElementById('consentError').classList.remove('visible');
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('btn-loading');
+  btn.disabled = true;
+  const data = collectFormData();
+
+  try {
+    const r = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!r.ok) throw new Error('webhook ' + r.status);
+    const out = await r.json();
+
+    // El webhook devuelve { ok, token, url, estado, expira_en }
+    // Marcar el token de cuestionario como usado (best-effort)
+    if (accessToken) {
+      sbReq(`clinica_enlaces_pacientes?token=eq.${accessToken}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ usado: true }),
+        prefer: 'return=minimal'
+      }).catch(() => {});
+    }
+
+    // Mostrar pantalla de éxito con link al informe
+    const reportUrl = out.url || (out.token ? REPORT_BASE_URL + out.token : null);
+    if (reportUrl) {
+      document.getElementById('reportLink').href = reportUrl;
+    } else {
+      document.getElementById('reportLink').style.display = 'none';
+    }
+    document.getElementById('appHeader').style.display = 'none';
+    document.getElementById('stepsWrapper').style.display = 'none';
+    document.getElementById('consentBox').style.display = 'none';
+    document.getElementById('submitNav').style.display = 'none';
+    document.getElementById('requiredNote').style.display = 'none';
+    document.getElementById('successScreen').classList.add('active');
+  } catch (e) {
+    console.error('Submit error:', e);
+    btn.classList.remove('btn-loading');
+    btn.disabled = false;
+    alert('Error al enviar los datos. Por favor, inténtalo de nuevo en unos segundos.');
+  }
+}
+
+// ============================================================================
+// Init
+// ============================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  initApp();
+});
+</script>
 </body>
 </html>
