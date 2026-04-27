@@ -986,13 +986,13 @@ async function canjearCodigo() {
   try {
     // Estrategia: verificar primero que el código existe y no está usado.
     // El consume_premium_code lo dejamos para el momento del submit, asociado al pacienteId real.
-    const rows = await sbReq(`nm_premium_codes?codigo=eq.${encodeURIComponent(code)}&select=codigo,usado,expira_at&limit=1`);
+    const rows = await sbReq(`nm_premium_codes?codigo=eq.${encodeURIComponent(code)}&select=codigo,usado,expira_en&limit=1`);
     if (!rows || rows.length === 0) {
       throw new Error('not_found');
     }
     const row = rows[0];
     if (row.usado) throw new Error('already_used');
-    if (row.expira_at && new Date(row.expira_at) < new Date()) throw new Error('expired');
+    if (row.expira_en && new Date(row.expira_en) < new Date()) throw new Error('expired');
 
     // OK — el código es válido. Lo guardamos para canjear en el submit.
     premiumActive = true;
